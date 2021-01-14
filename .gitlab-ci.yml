@@ -27,6 +27,7 @@ test:
 
 variables:
   DOCKER_TLS_CERTDIR: ""
+  LATEST_VER: s4ng/cicd-dino:latest
 
 prebuild:
   stage: build
@@ -34,11 +35,8 @@ prebuild:
     - docker:19.03.12-dind
   image: docker:19.03.12
   script:
-    - echo "$CI_REGISTRY_USER"
-    - echo "$CI_REGISTRY"
-    - echo "$CI_REGISTRY_IMAGE"
     - docker info
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - docker build --pull -t $LATEST_VER .
   only:
     - master
 
@@ -48,7 +46,7 @@ build:
     - docker:19.03.12-dind
   image: docker:19.03.12
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - docker push $LATEST_VER && docker image rm $LATEST_VER
   only:
     - master
