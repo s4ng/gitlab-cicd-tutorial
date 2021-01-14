@@ -27,9 +27,9 @@ test:
 
 variables:
   DOCKER_TLS_CERTDIR: ""
-  LATEST_VER: s4ng/cicd-dino:latest
+  LATEST_VER: s4ng/cicd-dino
 
-prebuild:
+build:
   stage: build
   services:
     - docker:19.03.12-dind
@@ -40,7 +40,7 @@ prebuild:
   only:
     - master
 
-build:
+push:
   stage: build
   services:
     - docker:19.03.12-dind
