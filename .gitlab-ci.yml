@@ -7,11 +7,8 @@ cache:
   paths:
     - node_modules/
 
-install-dependency:
-  stage: .pre
-  image: node:latest
-  script:
-    - npm install
+before_script:
+  - npm install
 
 lint:
   stage: lint
@@ -36,7 +33,7 @@ build:
   image: docker:19.03.12
   script:
     - docker info
-    - docker build --pull -t $LATEST_VER .
+    - docker build -t $LATEST_VER .
   only:
     - master
 
