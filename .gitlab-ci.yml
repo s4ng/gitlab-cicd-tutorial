@@ -1,5 +1,4 @@
 stages:
-  - lint
   - test
   - build
 
@@ -7,21 +6,13 @@ cache:
   paths:
     - node_modules/
 
-
-lint:
-  stage: lint
-  image: node:latest
-  before_script:
-    - npm install
-  script:
-    - NODE_ENV=mock npm run lint
-
-test:
+lint&test:
   stage: test
   image: node:latest
   before_script:
     - npm install
   script:
+    - NODE_ENV=mock npm run lint
     - NODE_ENV=mock npm run test
 
 variables:
